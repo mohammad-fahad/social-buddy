@@ -48,10 +48,12 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const Details = (props) => {
+const Details = () => {
   const { id } = useParams();
   const [postDetails, setPostDetails] = useState([]);
   const [comment, setComment] = useState([]);
+  const [color, setColor] = useState('');
+  const [selector, setSelector] = useState(null);
 
 
   useEffect(() => {
@@ -62,7 +64,7 @@ const Details = (props) => {
   }, [])
 
   useEffect(() => {
-    const api = `http://jsonplaceholder.typicode.com/comments?postId=${id}`
+    const api = `https://jsonplaceholder.typicode.com/comments?postId=${id}`
     fetch(api)
       .then(res => res.json())
       .then(data => setComment(data));
@@ -80,6 +82,10 @@ const Details = (props) => {
     setExpanded(!expanded);
   };
 
+const click = (e) => {
+  setSelector(e)
+  
+}
 
   return (
     <Container maxWidth="md" key={id}>
@@ -99,7 +105,7 @@ const Details = (props) => {
         />
         <CardMedia
           className={classes.media}
-          image={`https://picsum.photos/200/300?random=${postDetails.id}`}
+          image={`https://picsum.photos/1080/800?random=${postDetails.id}`}
           title="Paella dish"
         />
 
@@ -108,10 +114,11 @@ const Details = (props) => {
             {postDetails.email}
             <br />
             {postDetails.body}
+        
           </Typography>
         </CardContent>
         <CardActions disableSpacing>
-          <IconButton aria-label="add to favorites">
+          <IconButton onClick={() => setColor(color ? '' : 'secondary')} color={color} aria-label="add to favorites">
             <FavoriteIcon />
           </IconButton>
           <IconButton aria-label="share">
@@ -133,15 +140,15 @@ const Details = (props) => {
             <Typography>
               {
                 comment.map(comment => <Typography key={comment.id} paragraph style={{ borderRadius: '15px', boxShadow: '5px 5px 10px lightGrey', padding: '10px', display: 'flex', margin: '10px' }}>
-                  <Avatar style={{ marginRight: '20px', marginTop: '28px' }} alt="Remy Sharp" src={`https://picsum.photos/200/300?random=${comment.id}`} className={classes.large} />
+                  <Avatar style={{ marginRight: '20px', marginTop: '28px' }} alt="Remy Sharp" src={`https://picsum.photos/1080/800?random=${comment.id}`} className={classes.large} />
                   {comment.name}
                   <br />
                   {comment.email}
                   <br />
                   {comment.body}
                   <br />
-                   {/* Customized icons */}
-                  <IconButton aria-label="add to favorites">
+                  {/* Customized icons */}
+                  <IconButton onClick={() => click(comment.id)} color={comment.id === selector ? 'secondary' : ''} aria-label="add to favorites">
                     <FavoriteIcon />
                   </IconButton>
                   <IconButton aria-label="share">

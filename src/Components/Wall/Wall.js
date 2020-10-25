@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import clsx from 'clsx';
 import Card from '@material-ui/core/Card';
@@ -54,6 +54,7 @@ const Wall = (props) => {
     const { id, name, email, title, body } = props.pst;
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState(false);
+    const [color, setColor] = useState();
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -85,25 +86,21 @@ const Wall = (props) => {
                         {title}
                         <br />
                         {body}
-                        <br />
-                        
+                        <br />                        
                     </Typography>
-
-                </CardContent>
-                   
+                </CardContent>                   
                 <Link to={'/details/'+id} style={{textDecoration: 'none', marginTop:'20px'}}> <br/> <br/>
                             <Button variant="contained" color="primary">View Details</Button>
                         </Link>
                 <CardActions disableSpacing>
-                    <IconButton aria-label="add to favorites">
+                 {/* Need to fix this */}
+                    <IconButton onClick={() => setColor(color ? '' : 'secondary')} color={color} aria-label="add to favorites"> 
                         <FavoriteIcon />
                     </IconButton>
-                    <IconButton aria-label="share">
-                    
-                        <ShareIcon />
-                        
-                    </IconButton>
-                    
+                     {/* Need to fix this */}
+                    <IconButton aria-label="share">                    
+                        <ShareIcon />                        
+                    </IconButton>                    
                     <IconButton
                         className={clsx(classes.expand, {
                             [classes.expandOpen]: expanded,
